@@ -6,36 +6,50 @@ import {MaterialCommunityIcons, Feather} from '@expo/vector-icons';
  
 export default function App() {
   return (
-    <SafeAreaView>
-      <StatusBar/>
-      <View>
-        <View>
-            <Image />
-            <Text>McDonald's</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF"/>
+      <View style={styles.container}>
+        <View style={styles.header}>
+            <Image 
+            source={require('./images/logo.png')}
+            style={styles.header}
+            resizeMode="contain"
+            />
+            <Text style={styles.brandName}>McDonald's</Text>
         </View>
-        <View>
-          <Text>Seja Bem-vindo!</Text>
-          <Text>Esxolha como prefere aproveitar sua refeição. Estamos aqui para
+        <View style={styles.welcomeSection}>
+          <Text style={styles.title}>Seja Bem-vindo!</Text>
+          <Text style={styles.subtitle}>Esxolha como prefere aproveitar sua refeição. Estamos aqui para
             oferecer praticidade e sabor em cada detalhe!
             </Text>
         </View>
-        <View>
-          <TouchableOpacity>
-          <View>
+        <View style={styles.cardsRow}>
+          <TouchableOpacity
+          style={styles.card}
+          activeOpacity={0.85}
+          onPress={() => {}}
+          >
+          <View style={styles.iconCircle}>
               <MaterialCommunityIcons
               name="hamburger"
+              size={36}
+              color="#000000"
               />
           </View>
-          <View>
-            <Text>Para comer aqui!</Text>
+          <View style={styles.cardLabelPill}>
+            <Text style={styles.cardLabel}>Para comer aqui!</Text>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+          style={styles.card}
+          activeOpacity={0.85}
+          onPress={() => {}}
+          >
             <View>
-              <Feather name="shopping-bag" />
+              <Feather name="shopping-bag" size={34} color="#000000"/>
             </View>
-            <View>
-              <Text>Para levar</Text>
+            <View style={styles.cardLabelPill}>
+              <Text style={styles.cardLabel}>Para levar</Text>
             </View>
           </TouchableOpacity>
         </View>
