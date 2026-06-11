@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { 
+import {
     View,
     Text,
     Image,
@@ -21,7 +21,7 @@ const combos = [
         name: 'McOferta Média Big Mac Duplo',
         description: 'Quatro hambúrgueres (100% carne bovina), alface americana...',
         price: 'R$ 39,90',
-        image: require ('../images/combo-big-mac-duplo.png'),
+        image: require('../images/combo-big-mac-duplo.png'),
     },
     {
         id: '2',
@@ -48,9 +48,40 @@ const combos = [
 
 const categories = ['combos', 'Lancher', 'Fritas', 'Bebidas'];
 
-export default function MenuScreen({navigation}: Props) {
+export default function MenuScreen({ navigation }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>('Combos');
     return (
+        <View style={styles.container}>
+            <StatusBar barStyle={"light-content"} backgroundColor={"#000000"} />
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.headerImageWrapper}>
+                    <Image
+                        source={require('../images/restaurantes.png')}
+                        style={styles.headerImage}
+                        resizeMode="cover"
+                    />
+                    <TouchableOpacity
+                        style={[styles.headerButton, styles.headerButtonLeft]}
+                        activeOpacity={0.8}
+                        onPress={() => navigation.goBack}
+                    >
+                        <Ionicons name="chevron-back" size={22} color={"#000000"} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                    style={[styles.headerButton, styles.headerButtonRight]}
+                    activeOpacity={0.8}
+                    onPress={() => {}}
+                    >
+                        <Feather name="file-text" size={20} color={'#000000'}/>
+
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </View>
 
     );
 }
@@ -74,10 +105,10 @@ const styles = StyleSheet.create({
     headerButton: {
 
     },
-    HeaderButtonLeft: {
+    headerButtonLeft: {
 
     },
-    HeaderButtomRight: {
+    headerButtonRight: {
 
     },
     infoCard: {
