@@ -72,15 +72,64 @@ export default function MenuScreen({ navigation }: Props) {
                         <Ionicons name="chevron-back" size={22} color={"#000000"} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                    style={[styles.headerButton, styles.headerButtonRight]}
-                    activeOpacity={0.8}
-                    onPress={() => {}}
+                        style={[styles.headerButton, styles.headerButtonRight]}
+                        activeOpacity={0.8}
+                        onPress={() => { }}
                     >
-                        <Feather name="file-text" size={20} color={'#000000'}/>
+                        <Feather name="file-text" size={20} color={'#000000'} />
 
                     </TouchableOpacity>
                 </View>
+                <View style={styles.infoCard}>
+                    <View style={styles.infoTopRow}>
+                        <Image
+                            source={require('../images/logo.png')}
+                            style={styles.infoLogo}
+                            resizeMode="contain"
+                        />
+
+                        <View style={styles.infoTexts}>
+                            <Text style={styles.brandName}>McDonald's</Text>
+                            <Text style={styles.brandSubtitle}>O melhor fast food do mundo</Text>
+
+                        </View>
+                    </View>
+                    <View style={styles.statusRow}>
+                        <Feather name="clock" size={14} color={'#2BAA3B'} />
+                        <Text style={styles.statusText}>Aberto!</Text>
+                    </View>
+                    <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.categoriesRow}
+                    />
+                    {categories.map((category) => {
+                        const isActive = category === activeCategory;
+                        return (
+                            <TouchableOpacity
+                                key={category}
+                                activeOpacity={0.8}
+                                onPress={() => setActiveCategory(category)}
+                                style={[
+                                    styles.categoryPill,
+                                    isActive && styles.categoryPillActives
+                                ]}
+                                >
+                                    <Text
+                                    style={[
+                                        styles.categoryText,
+                                        isActive && styles.categoryTextActive,
+                                    ]}>
+
+                                        {category}
+                                    </Text>
+
+                            </TouchableOpacity>
+                        );
+                    })}
+                </View>
             </ScrollView>
+            <Text style={styles.sectionTitle}>Combos</Text>
         </View>
 
     );
@@ -138,7 +187,7 @@ const styles = StyleSheet.create({
     categoriesRow: {
 
     },
-    categoriesPill: {
+    categoryPill: {
 
     },
     categoryPillActives: {
