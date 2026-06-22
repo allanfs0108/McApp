@@ -9,45 +9,109 @@ import {
     StatusBar
 } from 'react-native';
 import { Ionicons, Feather } from "@expo/vector-icons";
-
+ 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "./HomeScreen";
-
+ 
 type Props = NativeStackScreenProps<RootStackParamList, 'Menu'>
 
-const combos = [
+type Product = {
+    id: string;
+    name: string;
+    description: string;
+    price: string;
+    image: number;
+}
+ 
+const combos: Product[] = [
+    
     {
-        id: '1',
+        id: 'combo-1',
         name: 'McOferta Média Big Mac Duplo',
         description: 'Quatro hambúrgueres (100% carne bovina), alface americana...',
         price: 'R$ 39,90',
         image: require('../images/combo-big-mac-duplo.png'),
     },
     {
-        id: '2',
+        id: 'combo-2',
         name: 'Novo Brabo Melt Onion Rings',
         description: 'Dois hambúrgueres de carne 100% bovina, méquinese, a exclu...',
         price: 'R$ 41,50',
         image: require('../images/combo-brabo-melt-onion-rings.png'),
     },
     {
-        id: '3',
+        id: 'combo-3',
         name: 'MCCrispy Chicken Elite',
         description: 'Composto por pão tipo brioche com batata, molho Honey&Fire, ...',
         price: 'R$ 39,90',
         image: require('../images/combo-mcrispy-elite.png'),
     },
     {
-        id: '4',
+        id: 'combo-4',
         name: 'Duplo Cheddar McMelt',
         description: 'Dois hambúrgueres (100% carne bovina), molho lácteo com quij...',
         price: 'R$ 36,20',
         image: require('../images/combo-duplo-cheddar-mcmelt.png'),
     }
 ];
+ 
+const lanches: Product[] = [
+    {
+        id: 'lanche-1',
+        name: 'Big Mac',
+        description: 'Quatro hambúrgueres (100% carne bovina), alface americana...',
+        price: 'R$ 39,90',
+        image: require('../images/lanche-big-mac.png'),
+    },
+    {
+        id: 'lanche-2',
+        name: 'Duplo Quarteirão',
+        description: 'Dois hambúrgueres 100% carne bovina, méquinese, a exclu...',
+        price: 'R$ 41,50',
+        image: require('../images/lanche-big-mac.png'),
+    },
+    {
+        id: 'lanche-3',
+        name: 'McMelt',
+        description: 'Composto por pão tipo brioche com batata, molho Honey&Fire, ...',
+        price: 'R$ 39,90',
+        image: require('../images/lanche-mcmelt.png'),
+    },
+    {
+        id: 'lanche-4',
+        name: 'McNífico Bacon',
+        description: 'Dois hambúrgueres (100% carne bovina), molho lácteo com queij...',
+        price: 'R$ 36,20',
+        image: require('../images/lanche-mcnifico.png'),
+    }
+];
+
+const fritas: Product[] = [
+    {
+        id: 'fritas',
+        name: 'Fritas Grande',
+        description: 'Batatas fritas crocantes e sequinhas. Vem bastante!',
+        price: 'R$ 10,90',
+        image: require('../images/fritas-grande.png'),
+    },
+    {
+        id: 'fritas-2',
+        name: 'Fritas Média',
+        description: 'Batatas fritas crocantes e sequinhas. Vem bastante!',
+        price: 'R$ 9,90',
+        image: require('../images/fritas-media.png'),
+    },
+    {
+        id: 'fritas-3',
+        name: 'Fritas Pequena',
+        description: 'Batatas fritas crocantes e sequinhas. Vem bastante!',
+        price: 'R$ 5,90',
+        image: require('../images/fritas-pequena.png'),
+    },
+]
 
 const categories = ['combos', 'Lancher', 'Fritas', 'Bebidas'];
-
+ 
 export default function MenuScreen({ navigation }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>('Combos');
     return (
@@ -60,7 +124,7 @@ export default function MenuScreen({ navigation }: Props) {
             >
                 <View style={styles.headerImageWrapper}>
                     <Image
-                        source={require('../images/restaurantes.png')}
+                        source={require('../images/restaurante.png')}
                         style={styles.headerImage}
                         resizeMode="cover"
                     />
@@ -77,7 +141,7 @@ export default function MenuScreen({ navigation }: Props) {
                         onPress={() => { }}
                     >
                         <Feather name="file-text" size={20} color={'#000000'} />
-
+ 
                     </TouchableOpacity>
                 </View>
                 <View style={styles.infoCard}>
@@ -87,11 +151,11 @@ export default function MenuScreen({ navigation }: Props) {
                             style={styles.infoLogo}
                             resizeMode="contain"
                         />
-
+ 
                         <View style={styles.infoTexts}>
                             <Text style={styles.brandName}>McDonald's</Text>
                             <Text style={styles.brandSubtitle}>O melhor fast food do mundo</Text>
-
+ 
                         </View>
                     </View>
                     <View style={styles.statusRow}>
@@ -102,7 +166,7 @@ export default function MenuScreen({ navigation }: Props) {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.categoriesRow}
-                    />
+                    >
                     {categories.map((category) => {
                         const isActive = category === activeCategory;
                         return (
@@ -114,113 +178,201 @@ export default function MenuScreen({ navigation }: Props) {
                                     styles.categoryPill,
                                     isActive && styles.categoryPillActives
                                 ]}
-                                >
-                                    <Text
+                            >
+                                <Text
                                     style={[
                                         styles.categoryText,
                                         isActive && styles.categoryTextActive,
                                     ]}>
-
-                                        {category}
-                                    </Text>
-
+ 
+                                    {category}
+                                </Text>
+ 
                             </TouchableOpacity>
                         );
                     })}
-                </View>
             </ScrollView>
             <Text style={styles.sectionTitle}>Combos</Text>
+            {combos.map((combo, index) => (
+                <TouchableOpacity
+                    key={combo.id}
+                    style={[
+                        styles.productRow,
+                        index > 0 && styles.productRowDivider
+                    ]}
+                    activeOpacity={0.85}
+                    onPress={() => {
+ 
+                    }}
+                >
+                    <View style={styles.productInfo}>
+                        <Text style={styles.productName}></Text>
+                        <Text style={styles.productDescription} numberOfLines={2}>
+                            {combo.description}
+                        </Text>
+                        <Text style={styles.productPrice}>{combo.price}</Text>
+                    </View>
+                    <Image
+                        source={combo.image}
+                        style={styles.producImage}
+                        resizeMode="contain"
+                    />
+                </TouchableOpacity>
+            ))}
         </View>
-
+    </ScrollView>
+    </View >
     );
 }
-
+ 
 const styles = StyleSheet.create({
     container: {
-
+        flex: 1,
+        backgroundColor: '#F2F2F2'
     },
     scroll: {
-
+        flex: 1,
     },
     scrollContent: {
-
+        paddingBottom: 32
     },
     headerImageWrapper: {
-
+        width: '100%',
+        height: 240,
+        position: 'relative',
+        backgroundColor: '#000'
     },
     headerImage: {
-
+        width: '100%',
+        height: '100%',
+ 
     },
     headerButton: {
-
+        position: 'absolute',
+        top: 48,
+        width: 40,
+        borderRadius: 20,
+        backgroundColor: '#FFFFFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // Sombra em IOS e Android
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2},
+        shadowRadius: 4,
+        elevation: 4,
     },
     headerButtonLeft: {
-
+        left: 16,
     },
     headerButtonRight: {
-
+        right: 16,
     },
     infoCard: {
-
+        backgroundColor:'#FFFF',
+        marginTop: -24,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 16,
+        minHeight: 600,
     },
     infoTopRow: {
-
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
     },
     infoLogo: {
-
+        width: 48,
+        height: 48,
+        borderRadius: 8,
     },
     infoTexts: {
-
+        flex: 1,
     },
     brandName: {
-
+        fontSize: 18,
+        color: '#000',
+        fontWeight: '700',
     },
     brandSubtitle: {
-
+        fontSize: 13,
+        color: '#707070',
+        marginTop: 2,
     },
     statusRow: {
-
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        marginTop: 12,
     },
     statusText: {
-
+        color: '#2BAA3B',
+        fontSize: 13,
+        fontWeight: '600',
     },
     categoriesRow: {
-
+        flexDirection: 'row',
+        gap: 10,
+        paddingVertical: 18,
+        paddingRight: 12,
     },
     categoryPill: {
-
+        paddingHorizontal: 18,
+        paddingVertical: 9,
+        borderRadius: 22,
+        backgroundColor: '#F2F2F2'
     },
     categoryPillActives: {
-
+        backgroundColor: '#FFC72C'
     },
     categoryText: {
-
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#000'
     },
     categoryTextActive: {
-
+        color: '#000'
     },
     sectionTitle: {
-
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#000',
+        marginBottom: 8
     },
     productRow: {
-
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 14,
+        gap: 12,
     },
     productRowDivider: {
-
+        borderTopWidth: 1,
+        borderTopColor: '#EEE',
     },
     productInfo: {
-
+        flex: 1,
     },
     productName: {
-
+        fontSize: 15,
+        fontWeight: '700',
+        color:'#000',
+        marginBottom: 4
     },
     productDescription: {
-
+        fontSize: 13,
+        color:'#707070',
+        lineHeight: 18,
+        marginBottom: 8,
     },
     productPrice: {
-
+        fontSize: 14,
+        fontWeight: '700',
+        color: '#000'
     },
     producImage: {
-
+        width: 90,
+        height: 70,
     },
 })
+  
