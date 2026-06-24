@@ -9,10 +9,10 @@ import {
     StatusBar
 } from 'react-native';
 import { Ionicons, Feather } from "@expo/vector-icons";
- 
+
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "./HomeScreen";
- 
+
 type Props = NativeStackScreenProps<RootStackParamList, 'Menu'>
 
 type Product = {
@@ -22,9 +22,9 @@ type Product = {
     price: string;
     image: number;
 }
- 
+
 const combos: Product[] = [
-    
+
     {
         id: 'combo-1',
         name: 'McOferta Média Big Mac Duplo',
@@ -54,7 +54,7 @@ const combos: Product[] = [
         image: require('../images/combo-duplo-cheddar-mcmelt.png'),
     }
 ];
- 
+
 const lanches: Product[] = [
     {
         id: 'lanche-1',
@@ -82,13 +82,13 @@ const lanches: Product[] = [
         name: 'McNífico Bacon',
         description: 'Dois hambúrgueres (100% carne bovina), molho lácteo com queij...',
         price: 'R$ 36,20',
-        image: require('../images/lanche-mcnifico.png'),
+        image: require('../images/lanche-mcnifico-bacon.png'),
     }
 ];
 
 const fritas: Product[] = [
     {
-        id: 'fritas',
+        id: 'fritas-1',
         name: 'Fritas Grande',
         description: 'Batatas fritas crocantes e sequinhas. Vem bastante!',
         price: 'R$ 10,90',
@@ -109,11 +109,51 @@ const fritas: Product[] = [
         image: require('../images/fritas-pequena.png'),
     },
 ]
+const bebidas: Product[] = [
+    {
+        id: 'bebida',
+        name: 'Coca-Cola',
+        description: 'Coca-Cola gelada acompanhar seu lanche.',
+        price: 'R$ 5,90',
+        image: require('../images/coca-cola.png'),
+    },
+    {
+        id: 'bebida-2',
+        name: 'Fanta Laranja',
+        description: 'Fanta Laranja gelada para acompanhar seu lanche.',
+        price: 'R$ 5,90',
+        image: require('../images/fanta-laranja.png'),
+    },
+    {
+        id: 'bebida-3',
+        name: 'Água Mineral',
+        description: 'Água mineral sem gás para acompanhar seu lanche.',
+        price: 'R$ 5,90',
+        image: require('../images/agua.png'),
+    },
+]
 
-const categories = ['combos', 'Lancher', 'Fritas', 'Bebidas'];
- 
+const categories = ['Combos', 'Lanches', 'Fritas', 'Bebidas'];
+
+function getProdutos(categoriaSelecionada: string): Product[] {
+    switch (categoriaSelecionada) {
+        case 'Combos':
+            return combos;
+        case 'Lanches':
+            return lanches;
+        case 'Fritas':
+            return fritas;
+        case 'Bebidas':
+            return bebidas;
+        default:
+            return combos;
+    }
+}
+
 export default function MenuScreen({ navigation }: Props) {
-    const [activeCategory, setActiveCategory] = useState<string>('Combos');
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState<string>('Combos');
+
+    const produtosDaCateoria = getProdutos(categoriaSelecionada);
     return (
         <View style={styles.container}>
             <StatusBar barStyle={"light-content"} backgroundColor={"#000000"} />
@@ -141,7 +181,7 @@ export default function MenuScreen({ navigation }: Props) {
                         onPress={() => { }}
                     >
                         <Feather name="file-text" size={20} color={'#000000'} />
- 
+
                     </TouchableOpacity>
                 </View>
                 <View style={styles.infoCard}>
@@ -151,11 +191,11 @@ export default function MenuScreen({ navigation }: Props) {
                             style={styles.infoLogo}
                             resizeMode="contain"
                         />
- 
+
                         <View style={styles.infoTexts}>
                             <Text style={styles.brandName}>McDonald's</Text>
                             <Text style={styles.brandSubtitle}>O melhor fast food do mundo</Text>
- 
+
                         </View>
                     </View>
                     <View style={styles.statusRow}>
@@ -167,64 +207,64 @@ export default function MenuScreen({ navigation }: Props) {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.categoriesRow}
                     >
-                    {categories.map((category) => {
-                        const isActive = category === activeCategory;
-                        return (
-                            <TouchableOpacity
-                                key={category}
-                                activeOpacity={0.8}
-                                onPress={() => setActiveCategory(category)}
-                                style={[
-                                    styles.categoryPill,
-                                    isActive && styles.categoryPillActives
-                                ]}
-                            >
-                                <Text
+                        {categories.map((category) => {
+                            const isActive = category === categoriaSelecionada;
+                            return (
+                                <TouchableOpacity
+                                    key={category}
+                                    activeOpacity={0.8}
+                                    onPress={() => setCategoriaSelecionada(category)}
                                     style={[
-                                        styles.categoryText,
-                                        isActive && styles.categoryTextActive,
-                                    ]}>
- 
-                                    {category}
+                                        styles.categoryPill,
+                                        isActive && styles.categoryPillActives
+                                    ]}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.categoryText,
+                                            isActive && styles.categoryTextActive,
+                                        ]}>
+
+                                        {category}
+                                    </Text>
+
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </ScrollView>
+                    <Text style={styles.sectionTitle}>{categoriaSelecionada}</Text>
+                    {produtosDaCateoria.map((produto, index) => (
+                        <TouchableOpacity
+                            key={produto.id}
+                            style={[
+                                styles.productRow,
+                                index > 0 && styles.productRowDivider
+                            ]}
+                            activeOpacity={0.85}
+                            onPress={() => {
+
+                            }}
+                        >
+                            <View style={styles.productInfo}>
+                                <Text style={styles.productName}></Text>
+                                <Text style={styles.productDescription} numberOfLines={2}>
+                                    {produto.description}
                                 </Text>
- 
-                            </TouchableOpacity>
-                        );
-                    })}
+                                <Text style={styles.productPrice}>{produto.price}</Text>
+                            </View>
+                            <Image
+                                source={produto.image}
+                                style={styles.producImage}
+                                resizeMode="contain"
+                            />
+                        </TouchableOpacity>
+                    ))}
+                </View>
             </ScrollView>
-            <Text style={styles.sectionTitle}>Combos</Text>
-            {combos.map((combo, index) => (
-                <TouchableOpacity
-                    key={combo.id}
-                    style={[
-                        styles.productRow,
-                        index > 0 && styles.productRowDivider
-                    ]}
-                    activeOpacity={0.85}
-                    onPress={() => {
- 
-                    }}
-                >
-                    <View style={styles.productInfo}>
-                        <Text style={styles.productName}></Text>
-                        <Text style={styles.productDescription} numberOfLines={2}>
-                            {combo.description}
-                        </Text>
-                        <Text style={styles.productPrice}>{combo.price}</Text>
-                    </View>
-                    <Image
-                        source={combo.image}
-                        style={styles.producImage}
-                        resizeMode="contain"
-                    />
-                </TouchableOpacity>
-            ))}
-        </View>
-    </ScrollView>
-    </View >
+        </View >
     );
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -245,7 +285,7 @@ const styles = StyleSheet.create({
     headerImage: {
         width: '100%',
         height: '100%',
- 
+
     },
     headerButton: {
         position: 'absolute',
@@ -257,7 +297,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // Sombra em IOS e Android
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2},
+        shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
         elevation: 4,
     },
@@ -268,7 +308,7 @@ const styles = StyleSheet.create({
         right: 16,
     },
     infoCard: {
-        backgroundColor:'#FFFF',
+        backgroundColor: '#FFFF',
         marginTop: -24,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
@@ -313,15 +353,18 @@ const styles = StyleSheet.create({
     },
     categoriesRow: {
         flexDirection: 'row',
+        alignItems: 'center',
         gap: 10,
         paddingVertical: 18,
         paddingRight: 12,
     },
     categoryPill: {
+        height: 36,
         paddingHorizontal: 18,
-        paddingVertical: 9,
-        borderRadius: 22,
-        backgroundColor: '#F2F2F2'
+        borderRadius: 18,
+        backgroundColor: '#F2F2F2',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     categoryPillActives: {
         backgroundColor: '#FFC72C'
@@ -356,12 +399,12 @@ const styles = StyleSheet.create({
     productName: {
         fontSize: 15,
         fontWeight: '700',
-        color:'#000',
+        color: '#000',
         marginBottom: 4
     },
     productDescription: {
         fontSize: 13,
-        color:'#707070',
+        color: '#707070',
         lineHeight: 18,
         marginBottom: 8,
     },
@@ -375,4 +418,3 @@ const styles = StyleSheet.create({
         height: 70,
     },
 })
-  

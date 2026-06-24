@@ -13,7 +13,7 @@ export type RootStackParamList = {
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
@@ -36,7 +36,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             style={styles.card}
             activeOpacity={0.85}
-            onPress={() => { }}
+            onPress={() => navigation.navigate('Menu')}
           >
             <View style={styles.iconCircle}>
               <MaterialCommunityIcons
@@ -52,7 +52,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             style={styles.card}
             activeOpacity={0.85}
-            onPress={() => { }}
+            onPress={() => navigation.navigate('Menu')}
           >
             <View style={styles.iconCircle}>
               <Feather name="shopping-bag" size={34} color="#000000" />
