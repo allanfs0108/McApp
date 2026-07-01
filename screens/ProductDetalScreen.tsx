@@ -29,11 +29,53 @@ export default function ProductDetail({ navigation, route }: Props) {
 
     if (!produto) {
         return (
-            <SafeAreaView>
-
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.errorText}>Produto não encontrado</Text>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Text style={styles.backLink}>Voltar</Text>
+                </TouchableOpacity>
             </SafeAreaView>
         )
     }
+
+    return (
+        <View style={styles.container}>
+            <StatusBar barStyle={"dark-content"} backgroundColor={"#FFFFFF"} />
+            <TouchableOpacity
+                style={[styles.headerButton, styles.headerButtonLeft]}
+                activeOpacity={0.8}
+                onPress={() => navigation.goBack()}
+            ><Ionicons name="chevron-back" size={22} color={"#000000"} />
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.headerButton, styles.hedaerButtonRight]}
+                activeOpacity={0.8}
+                onPress={() => { }}>
+                <Feather name="file-text" size={20} color={"#000000"} />
+            </TouchableOpacity>
+
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={styles.ScrollContent}
+                showsVerticalScrollIndicator
+            >
+                <Image
+                    source={produto.image}
+                    style={styles.productImage}
+                    resizeMode="contain"
+                />
+                <View style={styles.brandRow}>
+                    <Image
+                        source={require('../images/logo.png')}
+                        style={styles.brandLogo}
+                        resizeMode="contain"
+                    />
+                    <Text style={styles.price}>McDonald's</Text>
+                </View>
+                <Text style={styles.productName}>{produto.name}</Text>
+            </ScrollView>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
