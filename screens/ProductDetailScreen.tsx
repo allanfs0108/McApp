@@ -108,21 +108,37 @@ export default function ProductDetailScreen({ navigation, route }: Props) {
                 {/* SEÇÃO INGREDIENTES */}
                 <View style={styles.ingredientsHeader}></View>
                 <MaterialCommunityIcons
-                name="chef-hat"
-                size={20}
-                color="#000000" 
+                    name="chef-hat"
+                    size={20}
+                    color="#000000"
                 />
-                <Text style={styles.sectionTitle}>Ingredientes</Text> 
+                <Text style={styles.sectionTitle}>Ingredientes</Text>
 
                 {/* Metodo MAP */}
                 {produto.ingredients.map((ingrediente, index) => (
-                <View key={index} style={styles.ingredientRow}>
-                <Text style={styles.bullet}></Text>
-                <Text style={styles.ingredientText}>{ingrediente}</Text>
-                </View>
+                    <View key={index} style={styles.ingredientRow}>
+                        <Text style={styles.bullet}></Text>
+                        <Text style={styles.ingredientText}>{ingrediente}</Text>
+                    </View>
                 ))}
                 <View style={styles.bottomSpacer} />
-           </ScrollView>
+            </ScrollView>
+            {/* BOTÂO ADICIONAR SACOLA */}
+            <View
+                style={[
+                    styles.footer,
+                    { paddingBottom: Math.max(insets.bottom - 8, 4) }
+                ]}
+            >
+                <TouchableOpacity
+                    style={styles.addButton}
+                    activeOpacity={0.85}
+                    onPress={() => { }}
+                >
+                    <Text style={styles.addButtonText}>Adicionar à sacola</Text>
+                </TouchableOpacity>
+
+            </View>
         </View>
     )
 }
