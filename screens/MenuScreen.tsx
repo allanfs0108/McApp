@@ -1,184 +1,356 @@
-import { useState } from "react"
+import { useState } from 'react';
+
 import {
     View,
     Text,
     Image,
-    ScrollView, // Permite Rolar a tela
+    ScrollView,
     StyleSheet,
     TouchableOpacity,
-    StatusBar
+    StatusBar,
 } from 'react-native';
-import { Ionicons, Feather } from "@expo/vector-icons";
 
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { RootStackParamList } from "./HomeScreen";
-import { getProdutos } from "../data/produtos";
+import {
+    Ionicons,
+    Feather,
+} from '@expo/vector-icons';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Menu'>
+import type {
+    NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 
-const categories = ['Combos', 'Lanches', 'Fritas', 'Bebidas'];
+import type {
+    RootStackParamList,
+} from './HomeScreen';
 
-export default function MenuScreen({ navigation }: Props) {
-    const [categoriaSelecionada, setCategoriaSelecionada] = useState<string>('Combos');
+import {
+    getProdutos,
+} from '../data/produtos';
 
-    const produtosDaCateoria = getProdutos(categoriaSelecionada);
+type Props = NativeStackScreenProps<
+    RootStackParamList,
+    'Menu'
+>;
+
+const categories = [
+    'Combos',
+    'Lanches',
+    'Fritas',
+    'Bebidas',
+];
+
+export default function MenuScreen({
+    navigation,
+}: Props) {
+    const [
+        categoriaSelecionada,
+        setCategoriaSelecionada,
+    ] = useState<string>('Combos');
+
+    const produtosDaCategoria =
+        getProdutos(categoriaSelecionada);
+
     return (
         <View style={styles.container}>
-            <StatusBar barStyle={"light-content"} backgroundColor={"#000000"} />
+            <StatusBar
+                barStyle="light-content"
+                backgroundColor="#000000"
+            />
+
             <ScrollView
                 style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
+                contentContainerStyle={
+                    styles.scrollContent
+                }
                 showsVerticalScrollIndicator={false}
             >
-                <View style={styles.headerImageWrapper}>
+                <View
+                    style={
+                        styles.headerImageWrapper
+                    }
+                >
                     <Image
                         source={require('../images/restaurante.png')}
                         style={styles.headerImage}
                         resizeMode="cover"
                     />
-                    <TouchableOpacity
-                        style={[styles.headerButton, styles.headerButtonLeft]}
-                        activeOpacity={0.8}
-                        onPress={() => navigation.goBack}
-                    >
-                        <Ionicons name="chevron-back" size={22} color={"#000000"} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.headerButton, styles.headerButtonRight]}
-                        activeOpacity={0.8}
-                        onPress={() => { }}
-                    >
-                        <Feather name="file-text" size={20} color={'#000000'} />
 
+                    <TouchableOpacity
+                        style={[
+                            styles.headerButton,
+                            styles.headerButtonLeft,
+                        ]}
+                        activeOpacity={0.8}
+                        onPress={() =>
+                            navigation.goBack()
+                        }
+                    >
+                        <Ionicons
+                            name="chevron-back"
+                            size={22}
+                            color="#000000"
+                        />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={[
+                            styles.headerButton,
+                            styles.headerButtonRight,
+                        ]}
+                        activeOpacity={0.8}
+                        onPress={() =>
+                            navigation.navigate(
+                                'Sacola'
+                            )
+                        }
+                    >
+                        <Feather
+                            name="shopping-bag"
+                            size={20}
+                            color="#000000"
+                        />
                     </TouchableOpacity>
                 </View>
+
                 <View style={styles.infoCard}>
-                    <View style={styles.infoTopRow}>
+                    <View
+                        style={styles.infoTopRow}
+                    >
                         <Image
                             source={require('../images/logo.png')}
                             style={styles.infoLogo}
                             resizeMode="contain"
                         />
 
-                        <View style={styles.infoTexts}>
-                            <Text style={styles.brandName}>McDonald's</Text>
-                            <Text style={styles.brandSubtitle}>O melhor fast food do mundo</Text>
+                        <View
+                            style={styles.infoTexts}
+                        >
+                            <Text
+                                style={
+                                    styles.brandName
+                                }
+                            >
+                                McDonald's
+                            </Text>
 
+                            <Text
+                                style={
+                                    styles.brandSubtitle
+                                }
+                            >
+                                O melhor fast food
+                                do mundo
+                            </Text>
                         </View>
                     </View>
-                    <View style={styles.statusRow}>
-                        <Feather name="clock" size={14} color={'#2BAA3B'} />
-                        <Text style={styles.statusText}>Aberto!</Text>
+
+                    <View
+                        style={styles.statusRow}
+                    >
+                        <Feather
+                            name="clock"
+                            size={14}
+                            color="#2BAA3B"
+                        />
+
+                        <Text
+                            style={styles.statusText}
+                        >
+                            Aberto!
+                        </Text>
                     </View>
+
                     <ScrollView
                         horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.categoriesRow}
+                        showsHorizontalScrollIndicator={
+                            false
+                        }
+                        contentContainerStyle={
+                            styles.categoriesRow
+                        }
                     >
-                        {categories.map((category) => {
-                            const isActive = category === categoriaSelecionada;
-                            return (
-                                <TouchableOpacity
-                                    key={category}
-                                    activeOpacity={0.8}
-                                    onPress={() => setCategoriaSelecionada(category)}
-                                    style={[
-                                        styles.categoryPill,
-                                        isActive && styles.categoryPillActives
-                                    ]}
+                        {categories.map(
+                            (category) => {
+                                const isActive =
+                                    category ===
+                                    categoriaSelecionada;
+
+                                return (
+                                    <TouchableOpacity
+                                        key={
+                                            category
+                                        }
+                                        activeOpacity={
+                                            0.8
+                                        }
+                                        onPress={() =>
+                                            setCategoriaSelecionada(
+                                                category
+                                            )
+                                        }
+                                        style={[
+                                            styles.categoryPill,
+                                            isActive &&
+                                                styles.categoryPillActive,
+                                        ]}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.categoryText,
+                                                isActive &&
+                                                    styles.categoryTextActive,
+                                            ]}
+                                        >
+                                            {
+                                                category
+                                            }
+                                        </Text>
+                                    </TouchableOpacity>
+                                );
+                            }
+                        )}
+                    </ScrollView>
+
+                    <Text
+                        style={
+                            styles.sectionTitle
+                        }
+                    >
+                        {categoriaSelecionada}
+                    </Text>
+
+                    {produtosDaCategoria.map(
+                        (produto, index) => (
+                            <TouchableOpacity
+                                key={produto.id}
+                                style={[
+                                    styles.productRow,
+                                    index > 0 &&
+                                        styles.productRowDivider,
+                                ]}
+                                activeOpacity={0.85}
+                                onPress={() => {
+                                    navigation.navigate(
+                                        'ProductDetail',
+                                        {
+                                            productId:
+                                                produto.id,
+                                        }
+                                    );
+                                }}
+                            >
+                                <View
+                                    style={
+                                        styles.productInfo
+                                    }
                                 >
                                     <Text
-                                        style={[
-                                            styles.categoryText,
-                                            isActive && styles.categoryTextActive,
-                                        ]}>
-
-                                        {category}
+                                        style={
+                                            styles.productName
+                                        }
+                                    >
+                                        {
+                                            produto.name
+                                        }
                                     </Text>
 
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </ScrollView>
-                    <Text style={styles.sectionTitle}>{categoriaSelecionada}</Text>
-                    {produtosDaCateoria.map((produto, index) => (
-                        <TouchableOpacity
-                            key={produto.id}
-                            style={[
-                                styles.productRow,
-                                index > 0 && styles.productRowDivider
-                            ]}
-                            activeOpacity={0.85}
-                            onPress={() => {
-                                navigation.navigate('ProductDetail', {
-                                    productId: produto.id,
-                                })
-                            }}
-                        >
-                            <View style={styles.productInfo}>
-                                <Text style={styles.productName}></Text>
-                                <Text style={styles.productDescription} numberOfLines={2}>
-                                    {produto.description}
-                                </Text>
-                                <Text style={styles.productPrice}>{produto.price}</Text>
-                            </View>
-                            <Image
-                                source={produto.image}
-                                style={styles.producImage}
-                                resizeMode="contain"
-                            />
-                        </TouchableOpacity>
-                    ))}
+                                    <Text
+                                        style={
+                                            styles.productDescription
+                                        }
+                                        numberOfLines={
+                                            2
+                                        }
+                                    >
+                                        {
+                                            produto.description
+                                        }
+                                    </Text>
+
+                                    <Text
+                                        style={
+                                            styles.productPrice
+                                        }
+                                    >
+                                        {
+                                            produto.price
+                                        }
+                                    </Text>
+                                </View>
+
+                                <Image
+                                    source={
+                                        produto.image
+                                    }
+                                    style={
+                                        styles.productImage
+                                    }
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+                        )
+                    )}
                 </View>
             </ScrollView>
-        </View >
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F2F2F2'
+        backgroundColor: '#F2F2F2',
     },
+
     scroll: {
         flex: 1,
     },
+
     scrollContent: {
-        paddingBottom: 32
+        paddingBottom: 32,
     },
+
     headerImageWrapper: {
         width: '100%',
         height: 240,
         position: 'relative',
-        backgroundColor: '#000'
+        backgroundColor: '#000',
     },
+
     headerImage: {
         width: '100%',
         height: '100%',
-
     },
+
     headerButton: {
         position: 'absolute',
         top: 48,
         width: 40,
+        height: 40,
         borderRadius: 20,
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',
-        // Sombra em IOS e Android
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
         shadowRadius: 4,
+        shadowOpacity: 0.15,
         elevation: 4,
     },
+
     headerButtonLeft: {
         left: 16,
     },
+
     headerButtonRight: {
         right: 16,
     },
+
     infoCard: {
-        backgroundColor: '#FFFF',
+        backgroundColor: '#FFFFFF',
         marginTop: -24,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
@@ -187,40 +359,48 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         minHeight: 600,
     },
+
     infoTopRow: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
     },
+
     infoLogo: {
         width: 48,
         height: 48,
         borderRadius: 8,
     },
+
     infoTexts: {
         flex: 1,
     },
+
     brandName: {
         fontSize: 18,
         color: '#000',
         fontWeight: '700',
     },
+
     brandSubtitle: {
         fontSize: 13,
         color: '#707070',
         marginTop: 2,
     },
+
     statusRow: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 6,
         marginTop: 12,
     },
+
     statusText: {
         color: '#2BAA3B',
         fontSize: 13,
         fontWeight: '600',
     },
+
     categoriesRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -228,63 +408,75 @@ const styles = StyleSheet.create({
         paddingVertical: 18,
         paddingRight: 12,
     },
+
     categoryPill: {
         height: 36,
         paddingHorizontal: 18,
         borderRadius: 18,
         backgroundColor: '#F2F2F2',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    categoryPillActives: {
-        backgroundColor: '#FFC72C'
+
+    categoryPillActive: {
+        backgroundColor: '#FFC72C',
     },
+
     categoryText: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#000'
+        color: '#000',
     },
+
     categoryTextActive: {
-        color: '#000'
+        color: '#000',
     },
+
     sectionTitle: {
         fontSize: 18,
         fontWeight: '700',
         color: '#000',
-        marginBottom: 8
+        marginBottom: 8,
     },
+
     productRow: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 14,
         gap: 12,
     },
+
     productRowDivider: {
         borderTopWidth: 1,
         borderTopColor: '#EEE',
     },
+
     productInfo: {
         flex: 1,
     },
+
     productName: {
         fontSize: 15,
         fontWeight: '700',
         color: '#000',
-        marginBottom: 4
+        marginBottom: 4,
     },
+
     productDescription: {
         fontSize: 13,
         color: '#707070',
         lineHeight: 18,
         marginBottom: 8,
     },
+
     productPrice: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#000'
+        color: '#000',
     },
-    producImage: {
+
+    productImage: {
         width: 90,
         height: 70,
     },
-})
+});
